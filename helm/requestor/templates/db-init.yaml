@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 {{ include "common.db-secret" . }}
 {{- end }}
+=======
+{{ include "common.db_setup_job" . }}
+---
+
+## {{ include "common.db-secret" . }}
+
+>>>>>>> 6a7f02d (updates)
 ---
 {{ include "common.db_setup_job" . }}
 ---
