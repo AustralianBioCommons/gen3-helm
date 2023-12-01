@@ -66,7 +66,13 @@ spec:
                 key: password
                 optional: false
             {{- else }}
-            value:  {{ .Values.global.postgres.master.password | quote}}
+           # Store secrets in cloud vaults or aws secrets manager for environments other than dev
+           # value:  {{ .Values.global.postgres.master.password | quote}}
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secret
+                key: postgres-password
+                optional: false            
             {{- end }}
           - name: PGUSER
           {{- if $.Values.global.postgres.externalSecret }}
@@ -98,7 +104,12 @@ spec:
                 key: host
                 optional: false
             {{- else }}
-            value: {{ .Values.global.postgres.master.host | quote }}
+            #value: {{ .Values.global.postgres.master.host | quote }}
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secret
+                key: postgres-host
+                optional: false            
             {{- end }}
           - name: SERVICE_PGUSER
             valueFrom:
@@ -176,6 +187,14 @@ kind: Secret
 metadata:
   name: {{ $.Chart.Name }}-dbcreds
 data:
+{{- if $.Values.global.postgres.cloudsecrets.enabled }}
+  {{ $secret := ( lookup "v1" "Secret" .Release.Namespace  "postgresql-secret"  ) }}
+  database: {{  index $secret.data "database" | b64enc | quote}}
+  username: {{  index $secret.data "username" | b64enc | quote}}
+  port: {{  index $secret.data "port" | b64enc | quote}}
+  password: {{  index $secret.data "password" | b64enc | quote}}
+  host: {{  index $secret.data "host" | b64enc | quote}}
+{{- else }}
   database: {{ ( $.Values.postgres.database | default (printf "%s_%s" $.Chart.Name $.Release.Name)  ) | b64enc | quote}}
   username: {{ ( $.Values.postgres.username | default (printf "%s_%s" $.Chart.Name $.Release.Name)  ) | b64enc | quote}}
   port: {{ $.Values.postgres.port | b64enc | quote }}
