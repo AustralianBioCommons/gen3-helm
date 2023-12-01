@@ -2,7 +2,7 @@
 =======
 {{ include "common.db_setup_job" . }}
 ---
-{{- if .Values.cloudsecrets.enabled }}
+{{- if eq ( default .Values.cloudsecrets.enabled false) true }}
 {{- else }}
 >>>>>>> 51ed2b7 (fix typo)
 {{ include "common.db-secret" . }}
