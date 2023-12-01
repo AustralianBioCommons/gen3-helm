@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-=======
-{{ include "common.db_setup_job" . }}
----
-{{- if .Values.cloudsecrets.enabled | default false }}
-{{- else }}
->>>>>>> 51ed2b7 (fix typo)
 {{ include "common.db-secret" . }}
-{{- end }}
 ---
 {{ include "common.db_setup_job" . }}
 ---
