@@ -70,8 +70,8 @@ spec:
            # value:  {{ .Values.global.postgres.master.password | quote}}
             valueFrom:
               secretKeyRef:
-                name: postgresql-secret
-                key: postgres-password
+                name: {{ .Chart.Name }}-dbcreds
+                key: password
                 optional: false            
             {{- end }}
           - name: PGUSER
@@ -107,8 +107,8 @@ spec:
             #value: {{ .Values.global.postgres.master.host | quote }}
             valueFrom:
               secretKeyRef:
-                name: postgresql-secret
-                key: postgres-host
+                name: {{ .Chart.Name }}-dbcreds
+                key: host
                 optional: false            
             {{- end }}
           - name: SERVICE_PGUSER
