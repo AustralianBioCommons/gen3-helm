@@ -6,22 +6,12 @@ metadata:
 type: Opaque
 {{- if .Values.global.aws.enabled }}
 stringData:
-<<<<<<< HEAD
-  config.json: |
-    {
-      "manifest_bucket_name": "{{ .Values.pelican.bucket }}",
-      "hostname": "{{ .Values.global.hostname }}",
-      "aws_access_key_id": "{{ .Values.secrets.awsAccessKeyId | default .Values.global.aws.awsAccessKeyId }}",
-      "aws_secret_access_key": "{{ .Values.secrets.awsSecretAccessKey | default .Values.global.aws.awsSecretAccessKey }}"
-    }
-=======
   config.json: |-
 {
   "manifest_bucket_name": "{{ .Values.pelican.bucket }}",
   "hostname": "{{ .Values.global.hostname }}",
-#  "aws_access_key_id": "{{ .Values.global.aws.pelican_user.access_key }}",
-#  "aws_secret_access_key": "{{ .Values.global.aws.pelican_user.access_secret }}"
+  "aws_access_key_id": "{{ .Values.global.aws.pelican_user.access_key }}",
+  "aws_secret_access_key": "{{ .Values.global.aws.pelican_user.access_secret }}"
 }
->>>>>>> 43bcc2c (sower credential commented out for testing)
 {{- end }}
 {{- end }}
