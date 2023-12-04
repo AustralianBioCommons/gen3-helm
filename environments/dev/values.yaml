@@ -55,7 +55,7 @@ pelican:
 
 
 portal:
-  enabled: true
+  enabled: false
   # image: 
   #   repository: 690491147947.dkr.ecr.ap-southeast-2.amazonaws.com/gen3/portal
   #   tag: latest
@@ -83,4 +83,8 @@ wts:
 
 sower:
   enabled: false
+
+guppy:
+  enabled: false
+
 
