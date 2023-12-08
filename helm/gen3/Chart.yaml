@@ -33,8 +33,8 @@ dependencies:
   condition: etl.enabled
 - name: external-secrets
   version: "0.1.0"
-  repository: file://../external-secrets
-  condition: external-secrets.enabled
+  repository: file://../gen3-external-secrets
+  condition: gen3-external-secrets.enabled
 - name: fence
   version: 0.1.17
   repository: "file://../fence"
