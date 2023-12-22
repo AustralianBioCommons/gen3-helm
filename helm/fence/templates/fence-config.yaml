@@ -1,6 +1,6 @@
 {{- if or (not .Values.global.externalSecrets.deploy) (and .Values.global.externalSecrets.deploy .Values.externalSecrets.createK8sFenceConfigSecret) }}
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
   name: fence-config
 stringData:
