@@ -1,7 +1,11 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
+<<<<<<< HEAD
   name: aws-config-fence
+=======
+  name: aws-config
+>>>>>>> ec34573 (aws config)
   namespace: {{.Values.awsConfig.namespace }}
 spec:
   refreshInterval: {{ .Values.awsConfig.refreshInterval | default "2m" }}
