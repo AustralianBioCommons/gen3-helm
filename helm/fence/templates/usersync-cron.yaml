@@ -38,6 +38,9 @@ spec:
             - name: creds-volume
               secret:
                 secretName: "fence-creds"
+            - name: aws-creds
+              secret: 
+                secretName: "aws-config"
             - name: projects
               configMap:
                 name: "projects"
