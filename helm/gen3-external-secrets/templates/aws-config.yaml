@@ -2,10 +2,14 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
 <<<<<<< HEAD
+<<<<<<< HEAD
   name: aws-config-fence
 =======
   name: aws-config
 >>>>>>> ec34573 (aws config)
+=======
+  name: aws-config-fence
+>>>>>>> cb8c3d1 (aws config)
   namespace: {{.Values.awsConfig.namespace }}
 spec:
   refreshInterval: {{ .Values.awsConfig.refreshInterval | default "2m" }}
