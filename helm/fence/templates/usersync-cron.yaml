@@ -1,4 +1,4 @@
-{{- if .Values.usersync -}}
+{{- if .Values.usersync.usersync -}}
 #
 # run with:
 # gen3 job run usersync
