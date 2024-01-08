@@ -17,6 +17,21 @@ clusterSecretStore:
           serviceAccountRef:
             name: "external-secrets-sa"
             namespace: "external-secrets"
+awsConfig:
+  namespace: cad
+  name: aws-config-creds
+  secretStoreRefName: gen3
+  secretStoreRefKind: ClusterSecretStore
+  targetName: aws-config
+  data:
+    - secretKey: access_key_id
+      remoteRef:
+        key: dev-cad-s3
+        property: access_key_id
+    - secretKey: secret_access_key
+      remoteRef:
+        key: dev-cad-s3
+        property: secret_access_key
 fence:
   # -- (map) Fence credentials configuration
   fencecreds:
