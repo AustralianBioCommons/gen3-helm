@@ -1,0 +1,14 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: aws-config-fence
+  namespace: {{.Values.awsConfig.namespace }}
+spec:
+  refreshInterval: {{ .Values.awsConfig.refreshInterval | default "2m" }}
+  secretStoreRef:
+    name: {{ .Values.awsConfig.secretStoreRefName }}
+    kind: {{ .Values.awsConfig.secretStoreRefKind }}
+  target:
+    name: {{ .Values.awsConfig.targetName }}
+  data:
+    {{- toYaml .Values.awsConfig.data | nindent 6 }}
