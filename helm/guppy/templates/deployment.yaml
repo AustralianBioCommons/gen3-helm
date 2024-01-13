@@ -76,9 +76,18 @@ spec:
               value: {{ .Values.global.tierAccessLimit | quote }}
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
 
 
 >>>>>>> 1b9058f (fix invalide type error)
+=======
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 87a0726 (Elasticsearch 7 support (#143))
+>>>>>>> d0f1e2c (updates)
+>>>>>>> abde1c7 (updates)
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 10 }}

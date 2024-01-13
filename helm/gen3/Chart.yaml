@@ -38,7 +38,6 @@ dependencies:
 - name: fence
   version: 0.1.18
   repository: "file://../fence"
-  condition: fence.enabled
 - name: guppy
   version: 0.1.11
   repository: "file://../guppy"
