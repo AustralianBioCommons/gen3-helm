@@ -12,8 +12,8 @@ spec:
       serviceAccountName: wts-secrets
       volumes:
         - name: config-volume
-          secret:
-            secretName: "fence-config"
+          configMap:
+            name: "fence-config"
         - name: shared-volume
           emptyDir: {}
       initContainers:
