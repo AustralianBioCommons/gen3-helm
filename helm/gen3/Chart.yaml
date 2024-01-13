@@ -31,14 +31,9 @@ dependencies:
   version: 0.1.0
   repository: file://../etl
   condition: etl.enabled
-- name: external-secrets
-  version: "0.1.0"
-  repository: file://../gen3-external-secrets
-  condition: gen3-external-secrets.enabled
 - name: fence
   version: 0.1.17
   repository: "file://../fence"
-  condition: fence.enabled
 - name: guppy
   version: 0.1.10
   repository: "file://../guppy"
