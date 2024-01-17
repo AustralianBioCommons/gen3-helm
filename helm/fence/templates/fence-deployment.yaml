@@ -63,7 +63,7 @@ spec:
             - |
               #echo "${FENCE_PUBLIC_CONFIG:-""}" > "/var/www/fence/fence-config-public.yaml"
               #python /var/www/fence/yaml_merge.py /var/www/fence/fence-config-public.yaml /var/www/fence/fence-init-config.yaml > /var/www/fence/fence-config.yaml
-              #cp /var/tmp/fence-config.yaml /var/www/fence/fence-config.yaml
+              cp /var/tmp/fence-config.yaml /var/www/fence/fence-config.yaml
               CLIENT_ID=(`cat /var/www/fence/openid-creds/client_id`)
               CLIENT_SECRET=(`cat /var/www/fence/openid-creds/client_secret`)
               sed -i -e "s@REPLACEME-OPENID-CID@$CLIENT_ID@g" /var/www/fence/fence-config.yaml
@@ -102,7 +102,7 @@ spec:
               #echo "${FENCE_PUBLIC_CONFIG:-""}" > "/var/www/fence/fence-config-public.yaml"
               #python /var/www/fence/yaml_merge.py /var/www/fence/fence-config-public.yaml /var/tmp/fence-config.yaml > /var/www/fence/fence-config.yaml
               cp /var/tmp/fence-config.yaml /var/www/fence/fence-config.yaml
-              if [ -x "$(command fence-create migrate --help)" ]; then
+              if [ -x "$(command fence-create)" ]; then
                 if ! grep -E 'ENABLE_DB_MIGRATION"?: *false' /var/www/fence/fence-config.yaml; then
                   echo "Running db migration: fence-create migrate"
                   cd /fence
