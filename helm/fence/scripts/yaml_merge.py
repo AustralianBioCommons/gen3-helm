@@ -24,12 +24,20 @@ def merge_yaml_files(file_paths):
     return merged_data
 
 def merge_dicts(dict1, dict2):
+<<<<<<< HEAD
     if dict2 is not None: #Fix AttributeError
         for key, value in dict2.items():
             if key in dict1 and isinstance(dict1[key], dict) and isinstance(value, dict):
                 dict1[key] = merge_dicts(dict1[key], value)
             else:
                 dict1[key] = value
+=======
+    for key, value in dict2.items():
+        if key in dict1 and isinstance(dict1[key], dict) and isinstance(value, dict):
+            dict1[key] = merge_dicts(dict1[key], value)
+        else:
+            dict1[key] = value
+>>>>>>> f499001 (yaml merge)
 
     return dict1
 
@@ -53,4 +61,8 @@ if __name__ == "__main__":
     # Save the merged data to the output file
     save_merged_file(merged_data, output_file)
 
+<<<<<<< HEAD
     print(f"Merged Configuration saved to {output_file}")
+=======
+    print(f"Merged Configuration saved to {output_file}")
+>>>>>>> f499001 (yaml merge)
