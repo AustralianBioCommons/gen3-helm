@@ -208,4 +208,5 @@ spec:
                   echo "Exit code: $exitcode"
                   #pkill -u root && exit $exitcode
                   #exit "$exitcode" &
+                  exit 0
           restartPolicy: Never
