@@ -206,7 +206,6 @@ spec:
                   
                   # Kill sidecar and all processes
                   echo "Exit code: $exitcode"
-                  sleep 60
-                  pkill -u root && exit $exitcode
+                  #pkill -u root && exit $exitcode
                   exit "$exitcode" &
           restartPolicy: Never
