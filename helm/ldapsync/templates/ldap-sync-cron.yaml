@@ -50,6 +50,7 @@ spec:
                 - "-c"
                 # Script always succeeds if it runs (echo exits with 0)
                 - |
+                  set -x
                   python3 /app/transform_users.yaml.py --s3-bucket ${s3_bucket}
                           
           restartPolicy: Never
