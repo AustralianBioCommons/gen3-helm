@@ -31,7 +31,7 @@ spec:
               - name: slackWebHook
                 value: {{ .Values.ldapsync.slack_webhook | quote }}
           volumeMounts:
-          - name: "creds-volume"
-            readOnly: true
-            mountPath: "/app/ldap-sync-creds"          
+            - name: "creds-volume"
+              readOnly: true
+              mountPath: "/app/ldap-sync-creds"          
           restartPolicy: Never
