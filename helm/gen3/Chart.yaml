@@ -50,7 +50,7 @@ dependencies:
   version: 0.1.14
   repository: "file://../indexd"
   condition: indexd.enabled
-- name: ldap-synce
+- name: ldap-sync
   version: 0.1.0
   repository: "file://../ldap-sync"
   condition: ldap-sync.enabled
