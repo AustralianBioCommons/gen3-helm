@@ -11,6 +11,8 @@ spec:
     spec:
       template:
         metadata:
+          labels:
+            app: gen3ldapsync-job
         spec:
           serviceAccountName: ldap-sync-job
           volumes:
