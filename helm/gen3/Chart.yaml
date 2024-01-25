@@ -53,7 +53,7 @@ dependencies:
 - name: ldap-sync
   version: 0.1.0
   repository: "file://../ldapsync"
-  condition: ldap-sync.enabled
+  condition: ldapsync.enabled
 - name: manifestservice
   version: 0.1.14
   repository: "file://../manifestservice"
