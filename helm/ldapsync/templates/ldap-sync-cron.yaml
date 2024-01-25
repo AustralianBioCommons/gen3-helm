@@ -2,9 +2,9 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ include "ldap-sync.fullname" . }}
+  name: {{ include "ldapsync.fullname" . }}
   labels:
-    {{- include "ldap-sync.labels" . | nindent 4 }}
+    {{- include "ldapsync.labels" . | nindent 4 }}
 spec:
   schedule: {{ .Values.cronjob.schedule }}
   jobTemplate:
@@ -12,9 +12,9 @@ spec:
       template:
         metadata:
           labels:
-            {{- include "ldap-sync.labels" . | nindent 8 }}
+            {{- include "ldapsync.labels" . | nindent 8 }}
         spec:
-          serviceAccountName: {{- include "ldap-sync.serviceAccountName" . | nindent 8 }}
+          serviceAccountName: {{- include "ldapsync.serviceAccountName" . | nindent 8 }}
           volumes:
             - name: creds-volume
               secret:
@@ -24,7 +24,7 @@ spec:
               image: "{{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}"
               env:
               - name: slackWebHook
-                value: {{ .Values.ldap-sync.slack_webhook | quote }}
+                value: {{ .Values.ldapsync.slack_webhook | quote }}
               {{- toYaml .Values.env | nindent 12 }}
               volumeMounts:
               - name: "creds-volume"
