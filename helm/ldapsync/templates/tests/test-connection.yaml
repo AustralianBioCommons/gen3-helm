@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: "{{ include "ldapsync.fullname" . }}-test-connection"
   labels:
-    {{- include "ldapsync.labels" . | nindent 4 }}
+    app: gen3ldapsync-test
   annotations:
     "helm.sh/hook": test
 spec:
