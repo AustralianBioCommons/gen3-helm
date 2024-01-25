@@ -14,7 +14,7 @@ spec:
           labels:
             {{- include "ldapsync.labels" . | nindent 8 }}
         spec:
-          serviceAccountName: {{- include "ldapsync.serviceAccountName" . | nindent 8 }}
+          serviceAccountName: ldap-sync-job
           volumes:
             - name: creds-volume
               secret:
