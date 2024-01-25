@@ -27,9 +27,6 @@ spec:
           containers:
             - name: {{ .Values.cronjob.jobName }}
               image: "{{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}"
-              env:
-              - name: slackWebHook
-                value: {{ .Values.ldapsync.slack_webhook | quote }}
               volumeMounts:
                 - name: "creds-volume"
                   readOnly: true
