@@ -1,15 +1,15 @@
 {{/*
 Expand the chart name to create fully qualified names
 */}}
-{{- define "ldap-sync.fullname" -}}
+{{- define "ldapsync.fullname" -}}
 {{- printf "%s-%s" .Release.Name .Chart.Name -}}
 {{- end }}
 
 {{/*
 Create labels for resources
 */}}
-{{- define "ldap-sync.labels" -}}
-app: "{{ template "ldap-sync.name" . }}"
+{{- define "ldapsync.labels" -}}
+app: "{{ template "ldapsync.name" . }}"
 chart: "{{ .Chart.Name | replace "+" "_" | trunc 63 | trimSuffix "-" }}"
 release: "{{ .Release.Name }}"
 heritage: "{{ .Release.Service }}"
@@ -17,9 +17,9 @@ heritage: "{{ .Release.Service }}"
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "ldap-sync.serviceAccountName" -}}
+{{- define "ldapsync.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "ldap-sync.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "ldapsync.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

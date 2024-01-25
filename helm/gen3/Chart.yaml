@@ -48,7 +48,7 @@ dependencies:
   condition: indexd.enabled
 - name: ldap-sync
   version: 0.1.0
-  repository: "file://../ldap-sync"
+  repository: "file://../ldapsync"
   condition: ldap-sync.enabled
 - name: manifestservice
   version: 0.1.13
