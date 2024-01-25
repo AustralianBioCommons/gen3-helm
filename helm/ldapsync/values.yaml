@@ -42,7 +42,7 @@ ldapsync:
       repository: 232870232581.dkr.ecr.ap-southeast-2.amazonaws.com/gen3-uat/schema
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+      tag: ""
 
   resources:
     limits:
