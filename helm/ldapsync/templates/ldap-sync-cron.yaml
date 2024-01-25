@@ -6,7 +6,7 @@ metadata:
   labels:
     app: gen3ldapsync
 spec:
-  schedule: {{ .Values.cronjob.schedule }}
+  schedule: {{ .Values.cronjob.schedule | quote }}
   jobTemplate:
     spec:
       template:
