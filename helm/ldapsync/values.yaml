@@ -35,6 +35,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 ldapsync:
+  ldapsynccreds: {}
   cronjob:
     jobName: gen3ldapsync
     schedule: "*/5 * * * *"
