@@ -40,7 +40,7 @@ spec:
                 - name: slackWebHook
                   value: {{ .Values.ldapsync.slack_webhook | quote }}
                 - name: s3_bucket
-                  value: {{ .Values.ldapsync.bucket }}
+                  value: {{ .Values.ldapsync.bucket | quote }}
 
                 # - name: "creds-volume"
                 #   readOnly: true
