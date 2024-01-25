@@ -39,8 +39,6 @@ spec:
                       key: LDAP_PASSWORD
                 - name: slackWebHook
                   value: {{ .Values.ldapsync.slack_webhook | quote }}
-                - name: vpc_name
-                  value: {{ .Values.global.environment}}
                 - name: s3_bucket
                   value: {{ .Values.ldapsync.bucket }}
 
