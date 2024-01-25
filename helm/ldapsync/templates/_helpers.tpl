@@ -1,19 +1,61 @@
 {{/*
-Expand the chart name to create fully qualified names
+Expand the name of the chart.
 */}}
-{{- define "ldapsync.fullname" -}}
-{{- printf "%s-%s" .Release.Name .Chart.Name -}}
+{{- define "ldapsync.name" -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Create labels for resources
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "ldapsync.fullname" -}}
+{{- if .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default .Chart.Name .Values.nameOverride }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "ldapsync.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Common labels
 */}}
 {{- define "ldapsync.labels" -}}
-app: "{{ template "ldapsync.name" . }}"
-chart: "{{ .Chart.Name | replace "+" "_" | trunc 63 | trimSuffix "-" }}"
-release: "{{ .Release.Name }}"
-heritage: "{{ .Release.Service }}"
+{{- if .Values.commonLabels }}
+    {{- with .Values.commonLabels }}
+    {{- toYaml . }}
+    {{- end }}
+{{- else }}
+  {{- (include "common.commonLabels" .)}}
 {{- end }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "ldapsync.selectorLabels" -}}
+{{- if .Values.selectorLabels }}
+    {{- with .Values.selectorLabels }}
+    {{- toYaml . }}
+    {{- end }}
+{{- else }}
+  {{- (include "common.selectorLabels" .)}}
+{{- end }}
+{{- end }}
+
 {{/*
 Create the name of the service account to use
 */}}
