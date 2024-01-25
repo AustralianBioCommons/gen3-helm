@@ -42,7 +42,7 @@ spec:
                 - name: vpc_name
                   value: {{ .Values.global.environment}}
                 - name: s3_bucket
-                  name: {{ .Values.ldapsync.bucket }}
+                  value: {{ .Values.ldapsync.bucket }}
 
                 # - name: "creds-volume"
                 #   readOnly: true
