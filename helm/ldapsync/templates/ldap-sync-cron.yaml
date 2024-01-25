@@ -45,11 +45,11 @@ spec:
                 # - name: "creds-volume"
                 #   readOnly: true
                 #   mountPath: "/app/ldap-sync-creds
-            command: ["/bin/bash" ]
-            args:
-              - "-c"
-              # Script always succeeds if it runs (echo exits with 0)
-              - |
-                python3 /app/transform_users.yaml.py --s3-bucket $s3_bucket
-                        
+              command: ["/bin/bash" ]
+              args:
+                - "-c"
+                # Script always succeeds if it runs (echo exits with 0)
+                - |
+                  python3 /app/transform_users.yaml.py --s3-bucket $s3_bucket
+                          
           restartPolicy: Never
