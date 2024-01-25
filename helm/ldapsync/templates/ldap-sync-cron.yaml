@@ -27,10 +27,21 @@ spec:
             - name: {{ .Values.cronjob.jobName }}
               image: "{{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}"
               env:
-              - name: slackWebHook
-                value: {{ .Values.ldapsync.slack_webhook | quote }}
-              # volumeMounts:
-              #   - name: "creds-volume"
-              #     readOnly: true
-              #     mountPath: "/app/ldap-sync-creds"          
+                - name: LDAP_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "mycronjob.fullname" . }}
+                      key: LDAP_USER
+                - name: LDAP_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "mycronjob.fullname" . }}
+                      key: LDAP_PASSWORD
+                - name: slackWebHook
+                  value: {{ .Values.ldapsync.slack_webhook | quote }}
+              volumeMounts:
+                # - name: "creds-volume"
+                #   readOnly: true
+                #   mountPath: "/app/ldap-sync-creds
+                        
           restartPolicy: Never
