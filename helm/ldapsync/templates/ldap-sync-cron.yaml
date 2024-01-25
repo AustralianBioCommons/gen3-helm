@@ -30,12 +30,12 @@ spec:
                 - name: LDAP_USER
                   valueFrom:
                     secretKeyRef:
-                      name: {{ include "mycronjob.fullname" . }}
+                      name: {{ .Values.ldapsynccreds.targetName }}
                       key: LDAP_USER
                 - name: LDAP_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: {{ include "mycronjob.fullname" . }}
+                      name: {{ .Values.ldapsynccreds.targetName }}
                       key: LDAP_PASSWORD
                 - name: slackWebHook
                   value: {{ .Values.ldapsync.slack_webhook | quote }}
