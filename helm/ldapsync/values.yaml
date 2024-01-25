@@ -34,23 +34,23 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+ldapsync:
+  cronjob:
+    jobName: gen3ldapsync
+    schedule: "*/5 * * * *"
+    image:
+      repository: 232870232581.dkr.ecr.ap-southeast-2.amazonaws.com/gen3-uat/schema
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
 
-cronjob:
-  jobName: gen3ldapsync
-  schedule: "*/5 * * * *"
-  image:
-    repository: 232870232581.dkr.ecr.ap-southeast-2.amazonaws.com/gen3-uat/schema
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
 
-resources:
-  limits:
-    cpu: 100m
-    memory: 128Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
-
-# -- (string) Slack webhook endpoint used with certain jobs.
-slack_webhook: None
+  # -- (string) Slack webhook endpoint used with certain jobs.
+  slack_webhook: None
