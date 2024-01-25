@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: {{ include "ldapsync.fullname" . }}
   labels:
-    {{- include "ldapsync.labels" . | nindent 4 }}
+    app: gen3ldapsync
 spec:
   schedule: {{ .Values.cronjob.schedule }}
   jobTemplate:
