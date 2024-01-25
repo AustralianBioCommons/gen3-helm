@@ -25,7 +25,6 @@ spec:
               env:
               - name: slackWebHook
                 value: {{ .Values.ldapsync.slack_webhook | quote }}
-              {{- toYaml .Values.env | nindent 12 }}
               volumeMounts:
               - name: "creds-volume"
                 readOnly: true
