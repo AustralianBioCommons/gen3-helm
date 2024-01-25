@@ -11,8 +11,6 @@ spec:
     spec:
       template:
         metadata:
-          labels:
-            {{- include "ldapsync.labels" . | nindent 8 }}
         spec:
           serviceAccountName: ldap-sync-job
           volumes:
