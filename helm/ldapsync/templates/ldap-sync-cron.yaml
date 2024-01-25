@@ -14,10 +14,10 @@ spec:
             app: gen3ldapsync-job
         spec:
           serviceAccountName: ldap-sync-job
-          volumes:
-            - name: creds-volume
-              secret:
-                secretName: ldap-sync-creds
+          # volumes:
+          #   - name: creds-volume
+          #     secret:
+          #       secretName: ldap-sync-creds
           initContainers:
             - name: wait-for-fence
               image: curlimages/curl:latest
@@ -29,8 +29,8 @@ spec:
               env:
               - name: slackWebHook
                 value: {{ .Values.ldapsync.slack_webhook | quote }}
-              volumeMounts:
-                - name: "creds-volume"
-                  readOnly: true
-                  mountPath: "/app/ldap-sync-creds"          
+              # volumeMounts:
+              #   - name: "creds-volume"
+              #     readOnly: true
+              #     mountPath: "/app/ldap-sync-creds"          
           restartPolicy: Never
