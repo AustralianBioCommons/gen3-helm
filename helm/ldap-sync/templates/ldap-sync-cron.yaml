@@ -20,7 +20,7 @@ spec:
               secret:
                 secretName: ldap-sync-creds
           containers:
-            - name: {{ .Values.cronjob.jobName | default gen3-ldap-sync }}
+            - name: {{ .Values.cronjob.jobName | default gen3ldapsync }}
               image: "{{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}"
               env:
               - name: slackWebHook
