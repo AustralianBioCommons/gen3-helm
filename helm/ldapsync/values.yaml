@@ -52,4 +52,5 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-
+# -- (string) Slack webhook endpoint used with certain jobs.
+slack_webhook: None
