@@ -54,6 +54,7 @@ spec:
                 # Script always succeeds if it runs (echo exits with 0)
                 - |
                   set -x
+                  aws s3 ls
                   python3 /app/transform_users.yaml.py --s3-bucket ${BUCKET} --ldap-server ${LDAP_SERVER}
                           
           restartPolicy: Never
