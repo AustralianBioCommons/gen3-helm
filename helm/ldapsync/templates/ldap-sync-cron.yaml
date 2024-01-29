@@ -27,6 +27,8 @@ spec:
             - name: {{ .Values.cronjob.jobName }}
               image: "{{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}"
               env:
+                - name: LDAP_SERVER
+                  value: {{ .Values.server }}
                 - name: LDAP_USER
                   valueFrom:
                     secretKeyRef:
@@ -39,7 +41,7 @@ spec:
                       key: LDAP_PASSWORD
                 - name: slackWebHook
                   value: {{ .Values.ldapsync.slack_webhook | quote }}
-                - name: s3_bucket
+                - name: BUCKET
                   value: {{ .Values.cronjob.bucket | quote }}
 
                 # - name: "creds-volume"
@@ -51,6 +53,6 @@ spec:
                 # Script always succeeds if it runs (echo exits with 0)
                 - |
                   set -x
-                  python3 /app/transform_users.yaml.py --s3-bucket ${s3_bucket} --ldap-server ldaps://ldap-test.cilogon.org
+                  python3 /app/transform_users.yaml.py --s3-bucket ${BUCKET} --ldap-server ${LDAP_SERVER}
                           
           restartPolicy: Never
