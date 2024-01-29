@@ -35,6 +35,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 ldapsync:
+  server: ldap-service
   ldapsynccreds: {}
   bucket: ""
   cronjob:
