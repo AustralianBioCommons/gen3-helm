@@ -46,7 +46,7 @@ spec:
 
               volumeMounts:
                 - name: cred-volume
-                  mountPath: "/home/ubuntu/.aws/credentials"
+                  mountPath: "/root/.aws/credentials"
                   subPath: credentials
               command: ["/bin/bash" ]
               args:
@@ -54,7 +54,6 @@ spec:
                 # Script always succeeds if it runs (echo exits with 0)
                 - |
                   set -x
-                  pwd $home
                   python3 /app/transform_users.yaml.py --s3-bucket ${BUCKET} --ldap-server ${LDAP_SERVER}
                           
           restartPolicy: Never
