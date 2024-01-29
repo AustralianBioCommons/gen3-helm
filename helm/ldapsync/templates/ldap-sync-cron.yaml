@@ -14,10 +14,10 @@ spec:
             app: gen3ldapsync-job
         spec:
           serviceAccountName: ldap-sync-job
-          # volumes:
-          #   - name: creds-volume
-          #     secret:
-          #       secretName: ldap-sync-creds
+          volumes:
+            - name: cred-volume
+              secret: 
+                secretName: "aws-config-fence"
           initContainers:
             - name: wait-for-fence
               image: curlimages/curl:latest
@@ -44,9 +44,10 @@ spec:
                 - name: BUCKET
                   value: {{ .Values.cronjob.bucket | quote }}
 
-                # - name: "creds-volume"
-                #   readOnly: true
-                #   mountPath: "/app/ldap-sync-creds
+              volumeMounts:
+                - name: cred-volume
+                  mountPath: "/home/ubuntu/.aws/credentials"
+                  subPath: credentials
               command: ["/bin/bash" ]
               args:
                 - "-c"
