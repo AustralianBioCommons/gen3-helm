@@ -11,4 +11,4 @@ spec:
   target:
     name: {{ .Values.awsConfig.targetName }}
   data:
-    {{- toYaml .Values.awsConfig.data | nindent 6 }}
+    {{- toYaml .Values.awsConfig.data | nindent 6 -}}
