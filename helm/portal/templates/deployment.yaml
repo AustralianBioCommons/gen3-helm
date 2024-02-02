@@ -2,6 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: portal-deployment
+  {{- if .Values.annotations }}
+  annotations:
+    {{- toYaml .Values.annotations | nindent 8 }}
+  {{- end }}
   labels:
     {{- include "portal.labels" . | nindent 4 }}
     {{- if .Values.global.ddEnabled }}
