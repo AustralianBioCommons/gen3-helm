@@ -32,6 +32,29 @@ awsConfig:
       remoteRef:
         key: dev-cad-s3
         property: secret_access_key
+indexd:
+  # -- (map) Fence credentials configuration
+  indexdServiceCreds:
+    # -- (string) External Secrets name
+    name: gen3-indexd-service-creds
+    # -- (string) Namespace
+    namespace: argocd
+    # -- (string) Cluster Secret Store name
+    secretStoreRefName: gen3
+    # -- (string) Cluster Secret Store type (SecretStore or ClusterSecretStore)
+    secretStoreRefKind: ClusterSecretStore 
+    # -- (string) the target describes the secret that shall be created
+    targetName: indexd-service-creds
+    # -- (list) Data defines the connection between the Kubernetes Secret keys and the Provider data
+    data:
+      - secretKey: sheepdog
+        remoteRef: 
+          key: gen3-indexdService-creds
+          property: sheepdog
+      - secretKey: fence
+        remoteRef: 
+          key: gen3-indexdService-creds
+          property: fence
 fence:
   # -- (map) Fence credentials configuration
   fencecreds:
