@@ -201,7 +201,7 @@ spec:
                   echo "Port 9000 is now open. Continuing with the script..."
 
                   echo "python run_config.py && python run_etl.py"
-                  python run_config.py && python run_etl.py
+                  python run_config.py && python run_etl.py -f 
                   exitcode=$?
                   
                   # Kill sidecar and all processes
