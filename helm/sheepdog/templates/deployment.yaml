@@ -111,7 +111,7 @@ spec:
             - containerPort: 443
           livenessProbe:
             httpGet:
-              path: /_status?timeout=20
+              path: /_status?timeout=90
               port: 80
             initialDelaySeconds: 30
             periodSeconds: 60
@@ -119,7 +119,7 @@ spec:
           readinessProbe:
             initialDelaySeconds: 30
             httpGet:
-              path: /_status?timeout=2
+              path: /_status?timeout=10
               port: 80
           # command: ["/bin/bash" ]
           # args: 
