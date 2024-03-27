@@ -84,6 +84,7 @@ spec:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
             - name: aws-creds-volume
               mountPath: "/root/.aws/credentials"
+              subPath: credentials
       initContainers:
         - name: fence-init
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
