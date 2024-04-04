@@ -7,7 +7,7 @@ spec:
   refreshInterval: 5m
   secretStoreRef:
     name: {{ .Values.fence.fencecreds.secretStoreRefName }}
-    kind: SecretStore
+    kind: {{ .Values.fence.fencecreds.secretStoreRefKind }}
   target:
     name: fence-jwt-keys
     creationPolicy: Owner
@@ -15,4 +15,3 @@ spec:
   - secretKey: jwt_private_key.pem
     remoteRef:
       key: fence-jwt-keys
-
