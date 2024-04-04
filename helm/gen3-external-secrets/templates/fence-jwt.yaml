@@ -1,0 +1,18 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: fence-jwt-keys
+  namespace: {{.Values.fence.fencecreds.namespace }}
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    name: {{ .Values.fence.fencecreds.secretStoreRefName }}
+    kind: SecretStore
+  target:
+    name: fence-jwt-keys
+    creationPolicy: Owner
+  data:
+  - secretKey: jwt_private_key.pem
+    remoteRef:
+      key: fence-jwt-keys
+
