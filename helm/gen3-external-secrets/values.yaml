@@ -505,3 +505,21 @@ postgresql:
         remoteRef: 
           key: dev-service-requestor
           property: dbcreated
+ssjdispatcher:
+  # -- (map) Fence credentials configuration
+  ssjCreds:
+    # -- (string) External Secrets name
+    name: gen3-ssjDispatch-creds
+    # -- (string) Namespace
+    namespace: cad
+    # -- (string) Cluster Secret Store name
+    secretStoreRefName: gen3
+    # -- (string) Cluster Secret Store type (SecretStore or ClusterSecretStore)
+    secretStoreRefKind: ClusterSecretStore 
+    # -- (string) the target describes the secret that shall be created
+    targetName: ssjdispatcher-creds
+    # -- (list) Data defines the connection between the Kubernetes Secret keys and the Provider data
+    data:
+      - secretKey: credentials.json
+        remoteRef: 
+          key: cad-test-ssjcreds
