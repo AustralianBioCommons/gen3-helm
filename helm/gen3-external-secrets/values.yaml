@@ -509,7 +509,7 @@ ssjDispatcher:
   # -- (map) Fence credentials configuration
   ssjCreds:
     # -- (string) External Secrets name
-    name: gen3-ssjDispatch-creds
+    name: gen3-ssjdispatch-creds
     # -- (string) Namespace
     namespace: cad
     # -- (string) Cluster Secret Store name
