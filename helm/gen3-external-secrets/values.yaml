@@ -505,7 +505,7 @@ postgresql:
         remoteRef: 
           key: dev-service-requestor
           property: dbcreated
-ssjdispatcher:
+ssjDispatcher:
   # -- (map) Fence credentials configuration
   ssjCreds:
     # -- (string) External Secrets name
