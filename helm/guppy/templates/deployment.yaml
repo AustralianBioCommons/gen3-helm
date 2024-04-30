@@ -74,6 +74,11 @@ spec:
               value: {{ .Values.global.tierAccessLevel | quote }}
             - name: TIER_ACCESS_LIMIT
               value: {{ .Values.global.tierAccessLimit | quote }}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 1b9058f (fix invalide type error)
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 10 }}
