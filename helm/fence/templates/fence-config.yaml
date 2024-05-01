@@ -1,13 +1,11 @@
 {{- if or (not .Values.global.externalSecrets.deploy) (and .Values.global.externalSecrets.deploy .Values.externalSecrets.createK8sFenceConfigSecret) }}
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
 metadata:
   name: fence-config
-data:
+stringData:
   fence-config.yaml: |
     BASE_URL: https://{{ .Values.global.hostname }}/user
-    DEFAULT_CLIENT_ID: 'REPLACEME-OPENID-CID'
-    DEFAULT_CLIENT_SECRET: 'REPLACEME-OPENID-SECRET'
     {{- with .Values.FENCE_CONFIG }}
     {{- toYaml . | nindent 4 }}
     {{ end }}
