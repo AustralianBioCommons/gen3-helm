@@ -4,6 +4,6 @@ metadata:
   name: fence-public-config
 data:
   fence-public-config.yaml: |
-    {{- with .Values.FENCE_PUBLIC_CONFIG }}
+    {{- with .Values.FENCE_CONFIG }}
     {{- toYaml . | nindent 4 }}
     {{ end }}
