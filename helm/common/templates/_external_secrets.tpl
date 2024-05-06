@@ -54,7 +54,7 @@ spec:
       auth:
         jwt:
           serviceAccountRef:
-            name: external-secrets:external-secrets-sa
+            name: external-secrets-sa
 {{- end }}
 
 
