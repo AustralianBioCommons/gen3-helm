@@ -52,13 +52,9 @@ spec:
       service: SecretsManager
       region: {{ .Values.global.aws.region }}
       auth:
-        secretRef:
-          accessKeyIDSecretRef:
-            name: {{.Chart.Name}}-aws-config
-            key: access-key
-          secretAccessKeySecretRef:
-            name: {{.Chart.Name}}-aws-config
-            key: secret-access-key
+        jwt:
+          serviceAccountRef:
+            name: external-secrets/externa-secrets-sa
 {{- end }}
 
 
