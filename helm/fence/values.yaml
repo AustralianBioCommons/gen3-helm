@@ -291,12 +291,12 @@ env:
     value: /var/www/fence
   - name: GEN3_DEBUG
     value: "False"
-  - name: FENCE_PUBLIC_CONFIG
-    valueFrom:
-      configMapKeyRef:
-        name: manifest-fence
-        key: fence-config-public.yaml
-        optional: true
+  # - name: FENCE_PUBLIC_CONFIG
+  #   valueFrom:
+  #     configMapKeyRef:
+  #       name: manifest-fence
+  #       key: fence-config-public.yaml
+  #       optional: true
   - name: PGHOST
     valueFrom:
       secretKeyRef:
@@ -410,10 +410,14 @@ volumeMounts:
   - name: "config-volume"
     readOnly: true
     mountPath: "/var/www/fence/fence-config-secret.yaml"
+<<<<<<< HEAD
     subPath: fence-config.yaml
+=======
+    subPath: fence-config-secret.yaml
+>>>>>>> 477df0a (version bump)
   - name: "public-config-volume"
     readOnly: true
-    mountPath: "/var/www/fence/fence-public-config.yaml"
+    mountPath: "/var/tmp/fence-public-config.yaml"
     subPath: fence-public-config.yaml
   - name: "fence-scripts"
     readOnly: true
@@ -437,7 +441,11 @@ initVolumeMounts:
   - name: "config-volume"
     readOnly: true
     mountPath: "/var/www/fence/fence-config-secret.yaml"
+<<<<<<< HEAD
     subPath: fence-config.yaml
+=======
+    subPath: fence-config-secret.yaml
+>>>>>>> 477df0a (version bump)
   - name: "fence-scripts"
     readOnly: true
     mountPath: "/var/www/fence/yaml_merge.py"
@@ -1392,7 +1400,6 @@ USER_YAML: |
         privilege: [create, read, update, delete, upload, read-storage]
       - auth_id: jnkns
         privilege: [create, read, update, delete, upload, read-storage]
-
 
 # -- (map) Configuration settings for Fence app
 FENCE_CONFIG:
