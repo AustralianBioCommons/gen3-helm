@@ -19,8 +19,8 @@ spec:
       automountServiceAccountToken: false
       volumes:
         - name: fence-config
-          configMap:
-            name: "fence-config"
+          secret:
+            secretName: "fence-config"
         - name: useryaml
           configMap:
             name: useryaml
