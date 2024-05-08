@@ -33,14 +33,14 @@ spec:
                   - key: useryaml
                     path: user.yaml
             - name: config-volume
-              configMap:
-                name: "fence-config"
+              secret:
+                SecretName: "fence-config"
             - name: creds-volume
               secret:
                 secretName: "fence-creds"
             - name: aws-creds
               secret: 
-                secretName: "aws-config"
+                secretName: "aws-config-creds"
             - name: projects
               configMap:
                 name: "projects"
@@ -55,7 +55,7 @@ spec:
               emptyDir: {}
             - name: cred-volume
               secret:
-                secretName: aws-config-fence
+                secretName: aws-config-creds
           initContainers:
             - name: wait-for-fence
               image: curlimages/curl:latest
