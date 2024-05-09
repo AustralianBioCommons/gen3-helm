@@ -102,8 +102,6 @@ dependencies:
   version: 0.1.13
   repository: "file://../wts"
   condition: wts.enabled
-
-
 - name: elasticsearch
   version: 7.10.2
   repository: "https://helm.elastic.co"
@@ -126,11 +124,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-<<<<<<< HEAD
 version: 0.1.31
-=======
-version: 0.1.33
->>>>>>> fix/fence_yaml_merge
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
