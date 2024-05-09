@@ -291,12 +291,12 @@ env:
     value: /var/www/fence
   - name: GEN3_DEBUG
     value: "False"
-  - name: FENCE_PUBLIC_CONFIG
-    valueFrom:
-      configMapKeyRef:
-        name: manifest-fence
-        key: fence-config-public.yaml
-        optional: true
+  # - name: FENCE_PUBLIC_CONFIG
+  #   valueFrom:
+  #     configMapKeyRef:
+  #       name: manifest-fence
+  #       key: fence-config-public.yaml
+  #       optional: true
   - name: PGHOST
     valueFrom:
       secretKeyRef:
@@ -377,7 +377,7 @@ volumes:
   - name: yaml-merge
     configMap:
       name: "fence-yaml-merge"
-      optional: true
+      optional: false
 
 # -- (list) Volumes to mount to the container.
 volumeMounts:
@@ -483,12 +483,6 @@ initEnv:
     value: postgresql://$(PGUSER):$(PGPASSWORD)@$(PGHOST):5432/$(PGDB)
   - name: PYTHONPATH
     value: /var/www/fence
-  - name: FENCE_PUBLIC_CONFIG
-    valueFrom:
-      configMapKeyRef:
-        name: manifest-fence
-        key: fence-config-public.yaml
-        optional: true
 
 # Values to determine the labels that are used for the deployment, pod, etc.
 # -- (string) Valid options are "production" or "dev". If invalid option is set- the value will default to "dev".
@@ -1393,7 +1387,6 @@ USER_YAML: |
       - auth_id: jnkns
         privilege: [create, read, update, delete, upload, read-storage]
 
-
 # -- (map) Configuration settings for Fence app
 FENCE_CONFIG:
   # -- (string) Name of the Fence app
@@ -2283,4 +2276,11 @@ FENCE_CONFIG:
     fallback_to_dbgap_sftp: false
     visa_types:
       ras: ["https://ras.nih.gov/visas/v1", "https://ras.nih.gov/visas/v1.1"]
+<<<<<<< HEAD
   RAS_USERINFO_ENDPOINT: '/openid/connect/v1.1/userinfo'
+=======
+  RAS_USERINFO_ENDPOINT: '/openid/connect/v1.1/userinfo'
+# -- (map) Public Configuration settings for Fence app
+# NOTE: Remove the {} and supply additional configuration if needed.
+FENCE_PUBLIC_CONFIG: {}
+>>>>>>> fix/fence_yaml_merge

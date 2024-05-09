@@ -53,4 +53,8 @@ if __name__ == "__main__":
     # Save the merged data to the output file
     save_merged_file(merged_data, output_file)
 
+<<<<<<< HEAD
     print(f"Merged Configuration saved to {output_file}")
+=======
+    print(f"Merged Configuration saved to {output_file}")
+>>>>>>> fix/fence_yaml_merge
