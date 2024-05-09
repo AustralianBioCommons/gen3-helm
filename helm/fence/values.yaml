@@ -374,9 +374,10 @@ volumes:
   - name: privacy-policy
     configMap:
       name: "privacy-policy"
-  - name: fence-scripts
+  - name: yaml-merge
     configMap:
-      name: "fence-scripts"
+      name: "fence-yaml-merge"
+      optional: false
 
 # -- (list) Volumes to mount to the container.
 volumeMounts:
@@ -407,16 +408,8 @@ volumeMounts:
   - name: "config-volume"
     readOnly: true
     mountPath: "/var/www/fence/fence-config-secret.yaml"
-<<<<<<< HEAD
     subPath: fence-config.yaml
-=======
-    subPath: fence-config-secret.yaml
->>>>>>> 477df0a (version bump)
-  - name: "public-config-volume"
-    readOnly: true
-    mountPath: "/var/tmp/fence-public-config.yaml"
-    subPath: fence-public-config.yaml
-  - name: "fence-scripts"
+  - name: "yaml-merge"
     readOnly: true
     mountPath: "/var/www/fence/yaml_merge.py"
     subPath: yaml_merge.py
@@ -438,12 +431,8 @@ initVolumeMounts:
   - name: "config-volume"
     readOnly: true
     mountPath: "/var/www/fence/fence-config-secret.yaml"
-<<<<<<< HEAD
     subPath: fence-config.yaml
-=======
-    subPath: fence-config-secret.yaml
->>>>>>> 477df0a (version bump)
-  - name: "fence-scripts"
+  - name: "yaml-merge"
     readOnly: true
     mountPath: "/var/www/fence/yaml_merge.py"
     subPath: yaml_merge.py
