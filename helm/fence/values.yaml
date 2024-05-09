@@ -2276,11 +2276,4 @@ FENCE_CONFIG:
     fallback_to_dbgap_sftp: false
     visa_types:
       ras: ["https://ras.nih.gov/visas/v1", "https://ras.nih.gov/visas/v1.1"]
-<<<<<<< HEAD
   RAS_USERINFO_ENDPOINT: '/openid/connect/v1.1/userinfo'
-=======
-  RAS_USERINFO_ENDPOINT: '/openid/connect/v1.1/userinfo'
-# -- (map) Public Configuration settings for Fence app
-# NOTE: Remove the {} and supply additional configuration if needed.
-FENCE_PUBLIC_CONFIG: {}
->>>>>>> fix/fence_yaml_merge
