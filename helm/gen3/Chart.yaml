@@ -102,7 +102,10 @@ dependencies:
   version: 0.1.13
   repository: "file://../wts"
   condition: wts.enabled
+<<<<<<< HEAD
 
+=======
+>>>>>>> c6612ff (updates include yaml merge)
 - name: elasticsearch
   version: 7.10.2
   repository: "https://helm.elastic.co"
