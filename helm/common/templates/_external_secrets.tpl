@@ -52,9 +52,19 @@ spec:
       service: SecretsManager
       region: {{ .Values.global.aws.region }}
       auth:
+        {{- if .Values.global.aws.secretStoreServiceAccount.enabled }}
         jwt:
           serviceAccountRef:
-            name: external-secrets-sa
+            name: {{ .Values.global.aws.secretStoreServiceAccount.enabled }}
+        {{- else }}
+        secretRef:
+          accessKeyIDSecretRef:
+            name: {{.Chart.Name}}-aws-config
+            key: access-key
+          secretAccessKeySecretRef:
+            name: {{.Chart.Name}}-aws-config
+            key: secret-access-key
+        {{- end}}
 {{- end }}
 
 
