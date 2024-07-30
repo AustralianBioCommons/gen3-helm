@@ -291,15 +291,6 @@ env:
     value: /var/www/fence
   - name: GEN3_DEBUG
     value: "False"
-<<<<<<< HEAD
-  # - name: FENCE_PUBLIC_CONFIG
-  #   valueFrom:
-  #     configMapKeyRef:
-  #       name: manifest-fence
-  #       key: fence-config-public.yaml
-  #       optional: true
-=======
->>>>>>> feat/useryaml-opt-out
   - name: PGHOST
     valueFrom:
       secretKeyRef:
@@ -381,13 +372,10 @@ volumes:
     configMap:
       name: "fence-yaml-merge"
       optional: false
-<<<<<<< HEAD
-=======
   - name: config-volume-public
     configMap:
       name: "manifest-fence"
       optional: true
->>>>>>> feat/useryaml-opt-out
 
 # -- (list) Volumes to mount to the container.
 volumeMounts:
@@ -1405,14 +1393,10 @@ USER_YAML: |
       - auth_id: jnkns
         privilege: [create, read, update, delete, upload, read-storage]
 
-<<<<<<< HEAD
-# -- (map) Configuration settings for Fence app
-=======
 # -- (map) Public configuration settings for Fence app
 FENCE_CONFIG_PUBLIC: {}
 
 # -- (map) Private configuration settings for Fence app
->>>>>>> feat/useryaml-opt-out
 FENCE_CONFIG:
   # -- (string) Name of the Fence app
   APP_NAME: 'Gen3 Data Commons'
