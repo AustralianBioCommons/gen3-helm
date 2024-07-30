@@ -100,7 +100,7 @@ externalSecrets:
 # -- (map) Configuration options for usersync cronjob.
 usersync:
   # -- (bool) Whether to run Fence usersync or not.
-  usersync: true
+  usersync: false
   # -- (string) The cron schedule expression to use in the usersync cronjob. Runs every 30 minutes by default.
   schedule: "*/30 * * * *"
   # -- (string) To set a custom image for pulling the user.yaml file from S3. Default is the Gen3 Awshelper image.
@@ -291,12 +291,15 @@ env:
     value: /var/www/fence
   - name: GEN3_DEBUG
     value: "False"
+<<<<<<< HEAD
   # - name: FENCE_PUBLIC_CONFIG
   #   valueFrom:
   #     configMapKeyRef:
   #       name: manifest-fence
   #       key: fence-config-public.yaml
   #       optional: true
+=======
+>>>>>>> feat/useryaml-opt-out
   - name: PGHOST
     valueFrom:
       secretKeyRef:
@@ -378,6 +381,13 @@ volumes:
     configMap:
       name: "fence-yaml-merge"
       optional: false
+<<<<<<< HEAD
+=======
+  - name: config-volume-public
+    configMap:
+      name: "manifest-fence"
+      optional: true
+>>>>>>> feat/useryaml-opt-out
 
 # -- (list) Volumes to mount to the container.
 volumeMounts:
@@ -425,6 +435,10 @@ volumeMounts:
     readOnly: true
     mountPath: "/fence/keys/key/jwt_private_key.pem"
     subPath: "jwt_private_key.pem"
+  - name: "config-volume-public"
+    readOnly: true
+    mountPath: "/var/www/fence/fence-config-public.yaml"
+    subPath: fence-config-public.yaml
 
 # -- (list) Volumes to mount to the init container.
 initVolumeMounts:
@@ -432,6 +446,10 @@ initVolumeMounts:
     readOnly: true
     mountPath: "/var/www/fence/fence-config-secret.yaml"
     subPath: fence-config.yaml
+  - name: "config-volume-public"
+    readOnly: true
+    mountPath: "/var/www/fence/fence-config-public.yaml"
+    subPath: fence-config-public.yaml
   - name: "yaml-merge"
     readOnly: true
     mountPath: "/var/www/fence/yaml_merge.py"
@@ -1387,7 +1405,14 @@ USER_YAML: |
       - auth_id: jnkns
         privilege: [create, read, update, delete, upload, read-storage]
 
+<<<<<<< HEAD
 # -- (map) Configuration settings for Fence app
+=======
+# -- (map) Public configuration settings for Fence app
+FENCE_CONFIG_PUBLIC: {}
+
+# -- (map) Private configuration settings for Fence app
+>>>>>>> feat/useryaml-opt-out
 FENCE_CONFIG:
   # -- (string) Name of the Fence app
   APP_NAME: 'Gen3 Data Commons'
