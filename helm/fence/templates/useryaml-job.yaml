@@ -1,4 +1,4 @@
-{{- if not .Values.fence.usersync.usersync }}
+{{- if not .Values.fence.usersync.usersync -}}
 kind: ConfigMap 
 apiVersion: v1 
 metadata:
