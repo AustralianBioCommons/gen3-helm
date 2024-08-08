@@ -26,12 +26,6 @@ spec:
         spec:
           serviceAccountName: usersync-job
           volumes:
-            - name: user-yaml
-              configMap:
-                name: useryaml
-                items:
-                  - key: useryaml
-                    path: user.yaml
             - name: config-volume
               secret:
                 secretName: "fence-config"
@@ -76,8 +70,6 @@ spec:
               - name: slackWebHook
                 value: {{ .Values.usersync.slack_webhook | quote }}
               volumeMounts:
-                - name: user-yaml
-                  mountPath: /var/www/fence
                 - name: shared-data
                   mountPath: /mnt/shared
                 - name: cred-volume
