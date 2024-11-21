@@ -80,7 +80,7 @@ dependencies:
     repository: "file://../sheepdog"
     condition: sheepdog.enabled
   - name: ssjdispatcher
-    version: 0.1.13
+    version: 0.1.14
     repository: "file://../ssjdispatcher"
     condition: ssjdispatcher.enabled
   - name: sower
