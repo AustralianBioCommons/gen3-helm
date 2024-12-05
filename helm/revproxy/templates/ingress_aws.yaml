@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: revproxy-alb
   annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/scheme: {{ .Values.global.aws.scheme }}
     alb.ingress.kubernetes.io/tags: Environment={{ .Values.global.environment }}
     alb.ingress.kubernetes.io/certificate-arn: {{ .Values.global.revproxyArn }}
     alb.ingress.kubernetes.io/group.name: {{ .Values.global.environment }}
@@ -13,6 +13,9 @@ metadata:
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-Res-FIPS-2023-04
     {{- if .Values.global.aws.wafv2.enabled }}
     alb.ingress.kubernetes.io/wafv2-acl-arn: {{ .Values.global.aws.wafv2.wafAclArn }}
+    {{- end }}
+    {{- if .Values.externalDns.enabled }}
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.global.hostname }}
     {{- end }}
 spec:
   ingressClassName: alb
