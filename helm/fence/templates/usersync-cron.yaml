@@ -50,6 +50,7 @@ spec:
               emptyDir: {}
             - name: cred-volume
               secret:
+                optional: true
               {{- if .Values.global.aws.useLocalSecret.enabled }}
                 secretName: {{ .Values.global.aws.useLocalSecret.localSecretName }}
               {{- else }}
