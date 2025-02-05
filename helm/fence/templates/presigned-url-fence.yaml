@@ -13,12 +13,21 @@ spec:
       app: presigned-url-fence
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/publicconfig: {{ include (print $.Template.BasePath "/fence-config-public.yaml") . | sha256sum }}
+        checksum/secretconfig: {{ include (print $.Template.BasePath "/fence-config.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
+        {{- if .Values.metricsEnabled }}
+        {{- include "common.grafanaAnnotations" . | nindent 8 }}
+        {{- end }}
       labels:
-        app: presigned-url-fence 
+        app: "presigned-url-fence" 
+        authprovder: "yes"
+        netnolimit: "yes"
+        public: "yes"
+        userhelper: "yes"
     spec:
       serviceAccountName: {{ include "fence.serviceAccountName" . }}
       volumes:
