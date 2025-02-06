@@ -79,3 +79,17 @@ Create the name of the service account to use
 {{- default .Values.postgres.password }}
 {{- end }}
 {{- end }}
+
+{{/*
+  wts-g3auto Secrets Manager Name
+*/}}
+{{- define "wts-g3auto" -}}
+{{- default "wts-g3auto" .Values.externalSecrets.wtsG3auto }}
+{{- end }}
+
+{{/*
+  wts-oidc-client Secrets Manager Name
+*/}}
+{{- define "wts-oidc-client" -}}
+{{- default "wts-oidc-client" .Values.externalSecrets.wtsOIDCclient }}
+{{- end }}
