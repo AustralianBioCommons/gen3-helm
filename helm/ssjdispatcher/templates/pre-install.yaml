@@ -32,7 +32,7 @@ spec:
           args: ["while [ $(curl -sw '%{http_code}' http://indexd-service/index -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for indexd...'; done"]
       containers:
         - name: indexd
-          image: quay.io/cdis/indexd:master
+          image: quay.io/cdis/indexd:2024.11
           volumeMounts:
             - name: "config-volume"
               readOnly: true
@@ -94,6 +94,6 @@ spec:
             # Script always succeeds if it runs (echo exits with 0)
             # indexd image does not include jq, so use python 
             - |
-              echo 'python /indexd/bin/index_admin.py create --username "ssj" --password "${SSJ_PASS}'
+              echo 'python /indexd/bin/index_admin.py create --username "ssj" --password "secure password"'
               python /indexd/bin/index_admin.py create --username "ssj" --password "${SSJ_PASS}"
       restartPolicy: Never
