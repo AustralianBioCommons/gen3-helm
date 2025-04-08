@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: update-visas
+spec:
+  schedule: "*/5 * * * *" 
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        metadata:
+          labels:
+            app: gen3job
+        spec:
+          restartPolicy: OnFailure
+          automountServiceAccountToken: false
+          volumes:
+            - name: fence-config
+              secret:
+                secretName: "fence-config"
+          containers:
+            - name: fence
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: Always
+              env:
+                {{- toYaml .Values.env | nindent 16 }}
+              volumeMounts:
+                - name: "fence-config"
+                  readOnly: true
+                  mountPath: "/var/www/fence/fence-config.yaml"
+                  subPath: fence-config.yaml
+              command: ["/bin/bash"]
+              args:
+                - "-c"
+                - |
+                  fence-create update-visas
