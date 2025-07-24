@@ -70,9 +70,19 @@ global:
   pdb: false
   # -- (int) The minimum amount of pods that are available at all times if the PDB is deployed.
   minAvialable: 1
+  #  -- (map) This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+#  -- (map) This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+autoscaling: {}
 
 # -- (bool) Whether Metrics are enabled.
-metricsEnabled: false
+metricsEnabled: true
 
 # -- (map) Postgres database configuration. If db does not exist in postgres cluster and dbCreate is set ot true then these databases will be created for you
 postgres:
@@ -97,11 +107,11 @@ replicaCount: 1
 # -- (map) Docker image information.
 image:
   # -- (string) Docker repository.
-  repository: nginx
+  repository: "quay.io/cdis/nginx"
   # -- (string) Docker pull policy.
   pullPolicy: Always
   # -- (string) Overrides the image tag whose default is the chart appVersion.
-  tag: "stable-perl"
+  tag: "master"
 
 # -- (list) Docker image pull secrets.
 imagePullSecrets: []
@@ -161,6 +171,9 @@ netPolicy:
 
 # -- (map) Configuration for revproxy ingress.
 ingress:
+  aws:
+    group: ""
+    sslPolicy: "ELBSecurityPolicy-TLS13-1-2-Res-FIPS-2023-04"
   # -- (bool) Whether to create the ingress
   enabled: false
   # -- (string) The ingress class name.
@@ -186,28 +199,12 @@ ingress:
 resources:
   # -- (map) The amount of resources that the container requests
   requests:
-    # -- (string) The amount of CPU requested
-    cpu: 0.1
     # -- (string) The amount of memory requested
     memory: 12Mi
   # -- (map) The maximum amount of resources that the container is allowed to use
   limits:
-    # -- (string) The maximum amount of cpu the container can use
-    cpu: 1.0
     # -- (string) The maximum amount of memory the container can use
     memory: 512Mi
-
-# -- (map) Configuration for autoscaling the number of replicas
-autoscaling:
-  # -- (bool) Whether autoscaling is enabled or not
-  enabled: false
-  # -- (int) The minimum number of replicas to scale down to
-  minReplicas: 1
-  # -- (int) The maximum number of replicas to scale up to
-  maxReplicas: 100
-  # -- (int) The target CPU utilization percentage for autoscaling
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 # -- (map) Node selector labels.
 nodeSelector: {}

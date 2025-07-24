@@ -1,6 +1,6 @@
 # sower
 
-![Version: 0.1.16](https://img.shields.io/badge/Version-0.1.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: master](https://img.shields.io/badge/AppVersion-master-informational?style=flat-square)
+![Version: 0.1.29](https://img.shields.io/badge/Version-0.1.29-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: master](https://img.shields.io/badge/AppVersion-master-informational?style=flat-square)
 
 A Helm chart for gen3 sower
 
@@ -8,7 +8,7 @@ A Helm chart for gen3 sower
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../common | common | 0.1.16 |
+| file://../common | common | 0.1.20 |
 
 ## Values
 
@@ -22,15 +22,12 @@ A Helm chart for gen3 sower
 | affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values | list | `["sower"]` | Value for the match expression key. |
 | affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"kubernetes.io/hostname"` | Value for topology key label. |
 | automountServiceAccountToken | bool | `true` | Automount the default service account token |
-| autoscaling | map | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Configuration for autoscaling the number of replicas |
-| autoscaling.enabled | bool | `false` | Whether autoscaling is enabled |
-| autoscaling.maxReplicas | int | `100` | The maximum number of replicas to scale up to |
-| autoscaling.minReplicas | int | `1` | The minimum number of replicas to scale down to |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` | Target CPU utilization percentage |
+| autoscaling | object | `{}` |  |
 | awsRegion | string | `"us-east-1"` | AWS region to be used. |
 | awsStsRegionalEndpoints | string | `"regional"` | AWS STS to issue temporary credentials to users and roles that make an AWS STS request. Values regional or global. |
 | commonLabels | map | `nil` | Will completely override the commonLabels defined in the common chart's _label_setup.tpl |
 | criticalService | string | `"false"` | Valid options are "true" or "false". If invalid option is set- the value will default to "false". |
+| env | list | `nil` | Environment variables to pass to the container |
 | externalSecrets | map | `{"createK8sPelicanServiceSecret":false,"createK8sSowerJobsSecret":false,"pelicanserviceG3auto":null,"sowerjobsG3auto":null}` | External Secrets settings. |
 | externalSecrets.createK8sPelicanServiceSecret | string | `false` | Will create the Helm "pelicanservice-g3auto" secret even if Secrets Manager is enabled. This is helpful if you are wanting to use External Secrets for some, but not all secrets. |
 | externalSecrets.createK8sSowerJobsSecret | string | `false` | Will create the Helm "sower-jobs-g3auto" secret even if Secrets Manager is enabled. This is helpful if you are wanting to use External Secrets for some, but not all secrets. |
@@ -38,10 +35,17 @@ A Helm chart for gen3 sower
 | externalSecrets.sowerjobsG3auto | string | `nil` | Will override the name of the aws secrets manager secret. Default is "sower-jobs-g3auto" |
 | fullnameOverride | string | `""` | Override the full name of the deployment. |
 | gen3Namespace | string | `"default"` | Namespace to deploy the job. |
-| global.aws | map | `{"awsAccessKeyId":null,"awsSecretAccessKey":null,"enabled":false}` | AWS configuration |
+| global.autoscaling.enabled | bool | `false` |  |
+| global.autoscaling.maxReplicas | int | `100` |  |
+| global.autoscaling.minReplicas | int | `1` |  |
+| global.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| global.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| global.aws | map | `{"awsAccessKeyId":null,"awsSecretAccessKey":null,"enabled":false,"externalSecrets":{"enabled":false,"externalSecretAwsCreds":null}}` | AWS configuration |
 | global.aws.awsAccessKeyId | string | `nil` | Credentials for AWS stuff. |
 | global.aws.awsSecretAccessKey | string | `nil` | Credentials for AWS stuff. |
 | global.aws.enabled | bool | `false` | Set to true if deploying to AWS. Controls ingress annotations. |
+| global.aws.externalSecrets.enabled | bool | `false` | Whether to use External Secrets for aws config. |
+| global.aws.externalSecrets.externalSecretAwsCreds | String | `nil` | Name of Secrets Manager secret. |
 | global.dev | bool | `true` | Whether the deployment is for development purposes. |
 | global.dictionaryUrl | string | `"https://s3.amazonaws.com/dictionary-artifacts/datadictionary/develop/schema.json"` | URL of the data dictionary. |
 | global.dispatcherJobNum | int | `"10"` | Number of dispatcher jobs. |
@@ -69,23 +73,23 @@ A Helm chart for gen3 sower
 | image.repository | string | `"quay.io/cdis/sower"` | Docker repository. |
 | image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` | Docker image pull secrets. |
-| metricsEnabled | bool | `false` | Whether Metrics are enabled. |
+| metricsEnabled | bool | `true` | Whether Metrics are enabled. |
 | nameOverride | string | `""` | Override the name of the chart. |
 | netPolicy | map | `{"egressApps":["pidgin"],"ingressApps":["pidgin"]}` | Configuration for network policies created by this chart. Only relevant if "global.netPolicy.enabled" is set to true |
 | netPolicy.egressApps | array | `["pidgin"]` | List of apps that this app requires egress to |
 | netPolicy.ingressApps | array | `["pidgin"]` | List of app labels that require ingress to this service |
 | nodeSelector | map | `{}` | Node Selector for the pods |
 | partOf | string | `"Core-Service"` | Label to help organize pods and their use. Any value is valid, but use "_" or "-" to divide words. |
+| pelican.bucket | string | `"sower-pfb-bucket"` |  |
 | podSecurityContext | map | `{"fsGroup":1000,"runAsUser":1000}` | Security context to apply to the pod |
 | podSecurityContext.fsGroup | int | `1000` | Group that Kubernetes will change the permissions of all files in volumes to when volumes are mounted by a pod. |
 | podSecurityContext.runAsUser | int | `1000` | User that all the processes will run under in the container. |
 | release | string | `"production"` | Valid options are "production" or "dev". If invalid option is set- the value will default to "dev". |
 | replicaCount | int | `1` | Number of replicas for the deployment. |
-| resources | map | `{"limits":{"memory":"400Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | Resource requests and limits for the containers in the pod |
+| resources | map | `{"limits":{"memory":"400Mi"},"requests":{"memory":"20Mi"}}` | Resource requests and limits for the containers in the pod |
 | resources.limits | map | `{"memory":"400Mi"}` | The maximum amount of resources that the container is allowed to use |
 | resources.limits.memory | string | `"400Mi"` | The maximum amount of memory the container can use |
-| resources.requests | map | `{"cpu":"100m","memory":"20Mi"}` | The amount of resources that the container requests |
-| resources.requests.cpu | string | `"100m"` | The amount of CPU requested |
+| resources.requests | map | `{"memory":"20Mi"}` | The amount of resources that the container requests |
 | resources.requests.memory | string | `"20Mi"` | The amount of memory requested |
 | secrets | map | `{"awsAccessKeyId":null,"awsSecretAccessKey":null}` | Values for sower secrets and keys for External Secrets. |
 | secrets.awsAccessKeyId | str | `nil` | AWS access key ID. Overrides global key. |
@@ -111,16 +115,16 @@ A Helm chart for gen3 sower
 | sowerConfig[0].container.env[2].value | string | `"subject"` |  |
 | sowerConfig[0].container.env[3].name | string | `"DB_HOST"` |  |
 | sowerConfig[0].container.env[3].valueFrom.secretKeyRef.key | string | `"host"` |  |
-| sowerConfig[0].container.env[3].valueFrom.secretKeyRef.name | string | `"peregrine-dbcreds"` |  |
+| sowerConfig[0].container.env[3].valueFrom.secretKeyRef.name | string | `"sheepdog-dbcreds"` |  |
 | sowerConfig[0].container.env[4].name | string | `"DB_DATABASE"` |  |
 | sowerConfig[0].container.env[4].valueFrom.secretKeyRef.key | string | `"database"` |  |
-| sowerConfig[0].container.env[4].valueFrom.secretKeyRef.name | string | `"peregrine-dbcreds"` |  |
+| sowerConfig[0].container.env[4].valueFrom.secretKeyRef.name | string | `"sheepdog-dbcreds"` |  |
 | sowerConfig[0].container.env[5].name | string | `"DB_USER"` |  |
 | sowerConfig[0].container.env[5].valueFrom.secretKeyRef.key | string | `"username"` |  |
-| sowerConfig[0].container.env[5].valueFrom.secretKeyRef.name | string | `"peregrine-dbcreds"` |  |
+| sowerConfig[0].container.env[5].valueFrom.secretKeyRef.name | string | `"sheepdog-dbcreds"` |  |
 | sowerConfig[0].container.env[6].name | string | `"DB_PASS"` |  |
 | sowerConfig[0].container.env[6].valueFrom.secretKeyRef.key | string | `"password"` |  |
-| sowerConfig[0].container.env[6].valueFrom.secretKeyRef.name | string | `"peregrine-dbcreds"` |  |
+| sowerConfig[0].container.env[6].valueFrom.secretKeyRef.name | string | `"sheepdog-dbcreds"` |  |
 | sowerConfig[0].container.env[7].name | string | `"SHEEPDOG"` |  |
 | sowerConfig[0].container.env[7].valueFrom.secretKeyRef.key | string | `"sheepdog"` |  |
 | sowerConfig[0].container.env[7].valueFrom.secretKeyRef.name | string | `"indexd-service-creds"` |  |
@@ -150,16 +154,16 @@ A Helm chart for gen3 sower
 | sowerConfig[1].container.env[3].value | string | `""` |  |
 | sowerConfig[1].container.env[4].name | string | `"DB_HOST"` |  |
 | sowerConfig[1].container.env[4].valueFrom.secretKeyRef.key | string | `"host"` |  |
-| sowerConfig[1].container.env[4].valueFrom.secretKeyRef.name | string | `"peregrine-dbcreds"` |  |
+| sowerConfig[1].container.env[4].valueFrom.secretKeyRef.name | string | `"sheepdog-dbcreds"` |  |
 | sowerConfig[1].container.env[5].name | string | `"DB_DATABASE"` |  |
 | sowerConfig[1].container.env[5].valueFrom.secretKeyRef.key | string | `"database"` |  |
-| sowerConfig[1].container.env[5].valueFrom.secretKeyRef.name | string | `"peregrine-dbcreds"` |  |
+| sowerConfig[1].container.env[5].valueFrom.secretKeyRef.name | string | `"sheepdog-dbcreds"` |  |
 | sowerConfig[1].container.env[6].name | string | `"DB_USER"` |  |
 | sowerConfig[1].container.env[6].valueFrom.secretKeyRef.key | string | `"username"` |  |
-| sowerConfig[1].container.env[6].valueFrom.secretKeyRef.name | string | `"peregrine-dbcreds"` |  |
+| sowerConfig[1].container.env[6].valueFrom.secretKeyRef.name | string | `"sheepdog-dbcreds"` |  |
 | sowerConfig[1].container.env[7].name | string | `"DB_PASS"` |  |
 | sowerConfig[1].container.env[7].valueFrom.secretKeyRef.key | string | `"password"` |  |
-| sowerConfig[1].container.env[7].valueFrom.secretKeyRef.name | string | `"peregrine-dbcreds"` |  |
+| sowerConfig[1].container.env[7].valueFrom.secretKeyRef.name | string | `"sheepdog-dbcreds"` |  |
 | sowerConfig[1].container.env[8].name | string | `"SHEEPDOG"` |  |
 | sowerConfig[1].container.env[8].valueFrom.secretKeyRef.key | string | `"sheepdog"` |  |
 | sowerConfig[1].container.env[8].valueFrom.secretKeyRef.name | string | `"indexd-service-creds"` |  |
@@ -171,10 +175,6 @@ A Helm chart for gen3 sower
 | sowerConfig[1].container.volumeMounts[0].name | string | `"pelican-creds-volume"` |  |
 | sowerConfig[1].container.volumeMounts[0].readOnly | bool | `true` |  |
 | sowerConfig[1].container.volumeMounts[0].subPath | string | `"config.json"` |  |
-| sowerConfig[1].container.volumeMounts[1].mountPath | string | `"/peregrine-creds.json"` |  |
-| sowerConfig[1].container.volumeMounts[1].name | string | `"peregrine-creds-volume"` |  |
-| sowerConfig[1].container.volumeMounts[1].readOnly | bool | `true` |  |
-| sowerConfig[1].container.volumeMounts[1].subPath | string | `"creds.json"` |  |
 | sowerConfig[1].name | string | `"pelican-export-files"` |  |
 | sowerConfig[1].restart_policy | string | `"Never"` |  |
 | sowerConfig[1].volumes[0].name | string | `"pelican-creds-volume"` |  |

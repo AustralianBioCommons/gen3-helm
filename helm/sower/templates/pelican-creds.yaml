@@ -4,8 +4,8 @@ kind: Secret
 metadata:
   name: pelicanservice-g3auto
 type: Opaque
-{{- if .Values.global.aws.enabled }}
 stringData:
+<<<<<<< HEAD
   config.json: |-
 {
   "manifest_bucket_name": "{{ .Values.pelican.bucket }}",
@@ -14,4 +14,13 @@ stringData:
   "aws_secret_access_key": "{{ .Values.global.aws.pelican_user.access_secret }}"
 }
 {{- end }}
+=======
+  config.json: |
+    {
+      "manifest_bucket_name": "{{ .Values.pelican.bucket }}",
+      "hostname": "{{ .Values.global.hostname }}",
+      "aws_access_key_id": "{{ .Values.secrets.awsAccessKeyId | default .Values.global.aws.awsAccessKeyId }}",
+      "aws_secret_access_key": "{{ .Values.secrets.awsSecretAccessKey | default .Values.global.aws.awsSecretAccessKey }}"
+    }
+>>>>>>> master
 {{- end }}

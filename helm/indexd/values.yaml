@@ -12,6 +12,11 @@ global:
     awsAccessKeyId:
     # -- (string) Credentials for AWS stuff.
     awsSecretAccessKey:
+    externalSecrets:
+      # -- (bool) Whether to use External Secrets for aws config.
+      enabled: false
+      # -- (String) Name of Secrets Manager secret.
+      externalSecretAwsCreds:
   # -- (bool) Whether the deployment is for development purposes.
   dev: true
 
@@ -65,9 +70,19 @@ global:
     deploy: false
     # -- (string) Will deploy a separate External Secret Store for this service.
     separateSecretStore: false
+  #  -- (map) This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+#  -- (map) This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+autoscaling: {}
 
 # -- (bool) Whether Metrics are enabled.
-metricsEnabled: false
+metricsEnabled: true
 
 # -- (map) Configuration for network policies created by this chart. Only relevant if "global.netPolicy.enabled" is set to true
 netPolicy:
@@ -108,7 +123,8 @@ secrets:
   userdb:
     fence:
     sheepdog:
-    # gateway:
+    ssj:
+    gateway:
   # -- (str) AWS access key ID to access the db restore job S3 bucket. Overrides global key.
   awsAccessKeyId:
   # -- (str) AWS secret access key ID to access the db restore job S3 bucket. Overrides global key.
@@ -201,27 +217,12 @@ service:
 resources:
   # -- (map) The amount of resources that the container requests
   requests:
-    # -- (string) The amount of CPU requested
-    cpu: 0.1
     # -- (string) The amount of memory requested
     memory: 12Mi
   # -- (map) The maximum amount of resources that the container is allowed to use
   limits:
-    # -- (string) The maximum amount of CPU the container can use
-    cpu: 1.0
     # -- (string) The maximum amount of memory the container can use
     memory: 512Mi
-
-# -- (map) Autoscaling options.
-autoscaling:
-  enabled: false
-  # -- (int) Minimum number of replicas
-  minReplicas: 1
-  # -- (int) Maximum number of replicas
-  maxReplicas: 100
-  # -- (int) Target CPU utilization percentage
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 # -- (map) Node Selector for the pods
 nodeSelector: {}
@@ -261,6 +262,7 @@ uwsgi:
 
 # -- (string) default prefix for indexd
 defaultPrefix: "PREFIX/"
+useSingleTable: "False"
 
 # Values to determine the labels that are used for the deployment, pod, etc.
 # -- (string) Valid options are "production" or "dev". If invalid option is set- the value will default to "dev".

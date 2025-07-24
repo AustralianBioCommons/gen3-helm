@@ -1,6 +1,6 @@
 # revproxy
 
-![Version: 0.1.19](https://img.shields.io/badge/Version-0.1.19-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: master](https://img.shields.io/badge/AppVersion-master-informational?style=flat-square)
+![Version: 0.1.37](https://img.shields.io/badge/Version-0.1.37-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: master](https://img.shields.io/badge/AppVersion-master-informational?style=flat-square)
 
 A Helm chart for gen3 revproxy
 
@@ -8,25 +8,27 @@ A Helm chart for gen3 revproxy
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../common | common | 0.1.16 |
+| file://../common | common | 0.1.20 |
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | map | `{}` | Affinity to use for the deployment. |
-| autoscaling | map | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Configuration for autoscaling the number of replicas |
-| autoscaling.enabled | bool | `false` | Whether autoscaling is enabled or not |
-| autoscaling.maxReplicas | int | `100` | The maximum number of replicas to scale up to |
-| autoscaling.minReplicas | int | `1` | The minimum number of replicas to scale down to |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` | The target CPU utilization percentage for autoscaling |
+| autoscaling | object | `{}` |  |
 | commonLabels | map | `nil` | Will completely override the commonLabels defined in the common chart's _label_setup.tpl |
 | criticalService | string | `"true"` | Valid options are "true" or "false". If invalid option is set- the value will default to "false". |
 | fullnameOverride | string | `""` | Override the full name of the deployment. |
-| global.aws | map | `{"awsAccessKeyId":null,"awsSecretAccessKey":null,"enabled":false,"wafv2":{"enabled":false,"wafAclArn":null}}` | AWS configuration |
+| global.autoscaling.enabled | bool | `false` |  |
+| global.autoscaling.maxReplicas | int | `100` |  |
+| global.autoscaling.minReplicas | int | `1` |  |
+| global.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| global.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| global.aws | map | `{"awsAccessKeyId":null,"awsSecretAccessKey":null,"enabled":false,"scheme":"internet-facing","wafv2":{"enabled":false,"wafAclArn":null}}` | AWS configuration |
 | global.aws.awsAccessKeyId | string | `nil` | Credentials for AWS stuff. |
 | global.aws.awsSecretAccessKey | string | `nil` | Credentials for AWS stuff. |
 | global.aws.enabled | bool | `false` | Set to true if deploying to AWS. Controls ingress annotations. |
+| global.aws.scheme | string | `"internet-facing"` | internal or internet-facing |
 | global.aws.wafv2 | map | `{"enabled":false,"wafAclArn":null}` | WAF configuration |
 | global.aws.wafv2.enabled | bool | `false` | Set to true if using AWS WAFv2 |
 | global.aws.wafv2.wafAclArn | string | `nil` | ARN for the WAFv2 ACL. |
@@ -54,18 +56,18 @@ A Helm chart for gen3 revproxy
 | global.tierAccessLimit | int | `"1000"` | Only relevant if tireAccessLevel is set to "regular". Summary charts below this limit will not appear for aggregated data. |
 | global.tls.cert | string | `nil` |  |
 | global.tls.key | string | `nil` |  |
-| image | map | `{"pullPolicy":"Always","repository":"nginx","tag":"stable-perl"}` | Docker image information. |
+| image | map | `{"pullPolicy":"Always","repository":"quay.io/cdis/nginx","tag":"master"}` | Docker image information. |
 | image.pullPolicy | string | `"Always"` | Docker pull policy. |
-| image.repository | string | `"nginx"` | Docker repository. |
-| image.tag | string | `"stable-perl"` | Overrides the image tag whose default is the chart appVersion. |
+| image.repository | string | `"quay.io/cdis/nginx"` | Docker repository. |
+| image.tag | string | `"master"` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` | Docker image pull secrets. |
-| ingress | map | `{"annotations":{},"className":"","enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix"}]}],"tls":[]}` | Configuration for revproxy ingress. |
+| ingress | map | `{"annotations":{},"aws":{"group":"","sslPolicy":"ELBSecurityPolicy-TLS13-1-2-Res-FIPS-2023-04"},"className":"","enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix"}]}],"tls":[]}` | Configuration for revproxy ingress. |
 | ingress.annotations | map | `{}` | Annotations to add to the ingress. |
 | ingress.className | string | `""` | The ingress class name. |
 | ingress.enabled | bool | `false` | Whether to create the ingress |
 | ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix"}]}]` | Where to route the traffic. |
 | ingress.tls | list | `[]` | To secure an Ingress by specifying a secret that contains a TLS private key and certificate. |
-| metricsEnabled | bool | `false` | Whether Metrics are enabled. |
+| metricsEnabled | bool | `true` | Whether Metrics are enabled. |
 | nameOverride | string | `""` | Override the name of the chart. |
 | netPolicy | map | `{"egressApps":["portal","sowerjob"],"ingressApps":["portal","sowerjob"]}` | Configuration for network policies created by this chart. Only relevant if "global.netPolicy.enabled" is set to true |
 | netPolicy.egressApps | array | `["portal","sowerjob"]` | List of apps that this app requires egress to |
@@ -83,12 +85,10 @@ A Helm chart for gen3 revproxy
 | postgres.username | string | `nil` | Username for postgres. This is a service override, defaults to <serviceName>-<releaseName> |
 | release | string | `"production"` | Valid options are "production" or "dev". If invalid option is set- the value will default to "dev". |
 | replicaCount | int | `1` | Number of replicas for the deployment. |
-| resources | map | `{"limits":{"cpu":1,"memory":"512Mi"},"requests":{"cpu":0.1,"memory":"12Mi"}}` | Resource requests and limits for the containers in the pod |
-| resources.limits | map | `{"cpu":1,"memory":"512Mi"}` | The maximum amount of resources that the container is allowed to use |
-| resources.limits.cpu | string | `1` | The maximum amount of cpu the container can use |
+| resources | map | `{"limits":{"memory":"512Mi"},"requests":{"memory":"12Mi"}}` | Resource requests and limits for the containers in the pod |
+| resources.limits | map | `{"memory":"512Mi"}` | The maximum amount of resources that the container is allowed to use |
 | resources.limits.memory | string | `"512Mi"` | The maximum amount of memory the container can use |
-| resources.requests | map | `{"cpu":0.1,"memory":"12Mi"}` | The amount of resources that the container requests |
-| resources.requests.cpu | string | `0.1` | The amount of CPU requested |
+| resources.requests | map | `{"memory":"12Mi"}` | The amount of resources that the container requests |
 | resources.requests.memory | string | `"12Mi"` | The amount of memory requested |
 | revisionHistoryLimit | int | `2` | Number of old revisions to retain |
 | revproxyElb | map | `{"gen3SecretsFolder":"Gen3Secrets","sslCert":"","targetPortHTTP":80,"targetPortHTTPS":443}` | Configuration for depricated revproxy service ELB. |

@@ -24,8 +24,9 @@ spec:
         userhelper: "yes"
         {{- include "metadata.selectorLabels" . | nindent 8 }}
         {{- include "common.extraLabels" . | nindent 8 }}
-      annotations: 
-        {{- if .Values.metricsEnabled }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+        {{- if coalesce .Values.metricsEnabled .Values.global.metricsEnabled true }}
         {{- include "common.grafanaAnnotations" . | nindent 8 }}
         {{- end }}
     spec:
@@ -39,12 +40,8 @@ spec:
           secret:
             secretName: metadata-g3auto
         - name: config-volume
-          secret:
-            secretName: metadata-config
-            optional: true
-        - name: config-manifest
           configMap:
-            name: manifest-metadata
+            name: agg-mds-config
             optional: true
       containers:
         - name: {{ .Chart.Name }}
@@ -92,6 +89,8 @@ spec:
             - name: AGG_MDS_NAMESPACE
               value: {{ . }}
             {{- end }}
+            - name: AGG_MDS_DEFAULT_DATA_DICT_FIELD
+              value: {{ .Values.aggMdsDefaultDataDictField}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           livenessProbe:
             httpGet:

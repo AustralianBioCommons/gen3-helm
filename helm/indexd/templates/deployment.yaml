@@ -17,7 +17,7 @@ spec:
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-        {{- if .Values.metricsEnabled }}
+        {{- if coalesce .Values.metricsEnabled .Values.global.metricsEnabled true }}
         {{- include "common.grafanaAnnotations" . | nindent 8 }}
         {{- end }}
       labels:
@@ -75,6 +75,8 @@ spec:
                   optional: false
             - name: DEFAULT_PREFIX
               value: {{ .Values.defaultPrefix }}
+            - name: USE_SINGLE_TABLE
+              value: {{ .Values.useSingleTable | quote }}
             {{- toYaml .Values.env | nindent 12  }}
           volumeMounts:
             - name: "uwsgi-config"

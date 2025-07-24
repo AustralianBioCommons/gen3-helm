@@ -1,6 +1,6 @@
 # sheepdog
 
-![Version: 0.1.20](https://img.shields.io/badge/Version-0.1.20-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: master](https://img.shields.io/badge/AppVersion-master-informational?style=flat-square)
+![Version: 0.1.28](https://img.shields.io/badge/Version-0.1.28-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: master](https://img.shields.io/badge/AppVersion-master-informational?style=flat-square)
 
 A Helm chart for gen3 Sheepdog Service
 
@@ -8,7 +8,7 @@ A Helm chart for gen3 Sheepdog Service
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../common | common | 0.1.16 |
+| file://../common | common | 0.1.20 |
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
 
 ## Values
@@ -22,25 +22,25 @@ A Helm chart for gen3 Sheepdog Service
 | affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator | string | `"In"` | Operation type for the match expression. |
 | affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values | list | `["sheepdog"]` | Value for the match expression key. |
 | affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"kubernetes.io/hostname"` | Value for topology key label. |
-| arboristUrl | string | `"http://arborist-service"` | URL for the arborist service |
 | authNamespace | string | `""` |  |
 | automountServiceAccountToken | bool | `false` | Automount the default service account token |
-| autoscaling | map | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Configuration for autoscaling the number of replicas |
-| autoscaling.enabled | bool | `false` | Whether autoscaling is enabled |
-| autoscaling.maxReplicas | int | `100` | The maximum number of replicas to scale up to |
-| autoscaling.minReplicas | int | `1` | The minimum number of replicas to scale down to |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` | The target CPU utilization percentage for autoscaling |
+| autoscaling | object | `{}` |  |
 | commonLabels | map | `nil` | Will completely override the commonLabels defined in the common chart's _label_setup.tpl |
 | criticalService | string | `"true"` | Valid options are "true" or "false". If invalid option is set- the value will default to "false". |
 | dataDog | bool | `{"enabled":false,"env":"dev"}` | Whether Datadog is enabled. |
-| dictionaryUrl | string | `"https://s3.amazonaws.com/dictionary-artifacts/datadictionary/develop/schema.json"` | URL of the data dictionary. |
 | externalSecrets | map | `{"dbcreds":null}` | External Secrets settings. |
 | externalSecrets.dbcreds | string | `nil` | Will override the name of the aws secrets manager secret. Default is "Values.global.environment-.Chart.Name-creds" |
-| fenceUrl | string | `"http://fence-service"` | URL for the fence service |
-| global.aws | map | `{"awsAccessKeyId":null,"awsSecretAccessKey":null,"enabled":false}` | AWS configuration |
+| global.autoscaling.enabled | bool | `false` |  |
+| global.autoscaling.maxReplicas | int | `100` |  |
+| global.autoscaling.minReplicas | int | `1` |  |
+| global.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| global.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| global.aws | map | `{"awsAccessKeyId":null,"awsSecretAccessKey":null,"enabled":false,"externalSecrets":{"enabled":false,"externalSecretAwsCreds":null}}` | AWS configuration |
 | global.aws.awsAccessKeyId | string | `nil` | Credentials for AWS stuff. |
 | global.aws.awsSecretAccessKey | string | `nil` | Credentials for AWS stuff. |
 | global.aws.enabled | bool | `false` | Set to true if deploying to AWS. Controls ingress annotations. |
+| global.aws.externalSecrets.enabled | bool | `false` | Whether to use External Secrets for aws config. |
+| global.aws.externalSecrets.externalSecretAwsCreds | String | `nil` | Name of Secrets Manager secret. |
 | global.dev | bool | `true` | Whether the deployment is for development purposes. |
 | global.dictionaryUrl | string | `"https://s3.amazonaws.com/dictionary-artifacts/datadictionary/develop/schema.json"` | URL of the data dictionary. |
 | global.dispatcherJobNum | int | `"10"` | Number of dispatcher jobs. |
@@ -69,8 +69,7 @@ A Helm chart for gen3 Sheepdog Service
 | image.pullPolicy | string | `"Always"` | Docker pull policy. |
 | image.repository | string | `"quay.io/cdis/sheepdog"` | Docker repository. |
 | image.tag | string | `"bug_auth-audience"` | Overrides the image tag whose default is the chart appVersion. |
-| indexdUrl | string | `"http://indexd-service"` | URL for the indexd service |
-| metricsEnabled | bool | `false` | Whether Metrics are enabled. |
+| metricsEnabled | bool | `true` | Whether Metrics are enabled. |
 | partOf | string | `"Core-Service"` | Label to help organize pods and their use. Any value is valid, but use "_" or "-" to divide words. |
 | podAnnotations | map | `{"gen3.io/network-ingress":"sheepdog"}` | Annotations to add to the pod |
 | postgres | map | `{"database":null,"dbCreate":null,"dbRestore":false,"host":null,"password":null,"port":"5432","separate":false,"username":null}` | Postgres database configuration. If db does not exist in postgres cluster and dbCreate is set ot true then these databases will be created for you |
@@ -86,12 +85,10 @@ A Helm chart for gen3 Sheepdog Service
 | release | string | `"production"` | Valid options are "production" or "dev". If invalid option is set- the value will default to "dev". |
 | releaseLabel | string | `"production"` |  |
 | replicaCount | int | `1` | Number of replicas for the deployment. |
-| resources | map | `{"limits":{"cpu":1,"memory":"512Mi"},"requests":{"cpu":0.3,"memory":"12Mi"}}` | Resource requests and limits for the containers in the pod |
-| resources.limits | map | `{"cpu":1,"memory":"512Mi"}` | The maximum amount of resources that the container is allowed to use |
-| resources.limits.cpu | string | `1` | The maximum amount of CPU the container can use |
+| resources | map | `{"limits":{"memory":"512Mi"},"requests":{"memory":"12Mi"}}` | Resource requests and limits for the containers in the pod |
+| resources.limits | map | `{"memory":"512Mi"}` | The maximum amount of resources that the container is allowed to use |
 | resources.limits.memory | string | `"512Mi"` | The maximum amount of memory the container can use |
-| resources.requests | map | `{"cpu":0.3,"memory":"12Mi"}` | The amount of resources that the container requests |
-| resources.requests.cpu | string | `0.3` | The amount of CPU requested |
+| resources.requests | map | `{"memory":"12Mi"}` | The amount of resources that the container requests |
 | resources.requests.memory | string | `"12Mi"` | The amount of memory requested |
 | revisionHistoryLimit | int | `2` | Number of old revisions to retain |
 | secrets | map | `{"awsAccessKeyId":null,"awsSecretAccessKey":null}` | Values for sheepdog secret. |
