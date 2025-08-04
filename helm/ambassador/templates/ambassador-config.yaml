@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ambassador
+  namespace: {{ .Release.Namespace }}
+  labels:
+    product: ambassador
+data:
+  ambassador.yaml: |
+    ---
+    apiVersion: ambassador/v1
+    kind: Mapping
+    name: workspace-proxy-mapping
+    prefix: /api/
+    rewrite: /api/
+    service: hatchery-service.{{ .Release.Namespace }}.svc.cluster.local
+    host: {{ .Values.global.hostname }}
+    use_websocket: true
+    timeout_ms: 60000
