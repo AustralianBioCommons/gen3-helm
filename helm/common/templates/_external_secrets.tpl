@@ -13,11 +13,18 @@
 
 
 {{/*
+  External Secrets API version. Defaults to v1beta1 unless explicitly overridden.
+*/}}
+{{- define "common.externalSecrets.apiVersion" -}}
+{{- default "external-secrets.io/v1beta1" .Values.global.externalSecrets.apiVersion -}}
+{{- end -}}
+
+{{/*
     ExternalSecrets Object
 */}}
 {{- define "common.externalSecret.db" -}}
 {{ if .Values.global.externalSecrets.deploy }}
-apiVersion: external-secrets.io/v1beta1
+apiVersion: {{ include "common.externalSecrets.apiVersion" . }}
 kind: ExternalSecret
 metadata:
   name: {{ $.Chart.Name }}-dbcreds
@@ -42,7 +49,7 @@ spec:
     External Secrets Secret Store will allow all charts to allow for authentication to AWS Secrets Manager
 */}}
 {{ define "common.secretstore" -}}
-apiVersion: external-secrets.io/v1beta1
+apiVersion: {{ include "common.externalSecrets.apiVersion" . }}
 kind: SecretStore
 metadata:
   name: {{.Chart.Name}}-secret-store
